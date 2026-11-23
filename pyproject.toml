@@ -9,13 +9,14 @@ description = "Keller lab core code for data management, preprocessing and analy
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
-requires-python = ">=3.11"     # lab environment uses 3.13 (see .python-version)
+requires-python = ">=3.12"     # tifffile needs >=3.12; lab environment uses 3.13 (see .python-version)
 authors = [{ name = "Keller Lab, FMI" }]
 dependencies = [
     "numpy",
     "scipy",
     "matplotlib",
     "h5py",
+    "tifffile>=2026.3.3",
 ]
 
 [dependency-groups]              # developer tools; installed by `uv sync`, never by users
@@ -39,4 +40,4 @@ testpaths = ["tests"]
 
 [tool.ruff]
 line-length = 100
-target-version = "py311"
+target-version = "py312"
