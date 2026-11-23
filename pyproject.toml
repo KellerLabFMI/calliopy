@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=77", "setuptools-scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "calliopy"
+dynamic = ["version"]          # taken from git tags (setuptools-scm), e.g. tag v0.1.0 -> 0.1.0
+description = "Keller lab core code for data management, preprocessing and analysis (Python port of calliope)"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.11"     # lab environment uses 3.13 (see .python-version)
+authors = [{ name = "Keller Lab, FMI" }]
+dependencies = [
+    "numpy",
+    "scipy",
+    "matplotlib",
+    "h5py",
+]
+
+[dependency-groups]              # developer tools; installed by `uv sync`, never by users
+dev = ["pytest", "ruff"]
+
+[project.urls]
+Repository = "https://github.com/KellerLabFMI/calliopy"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools_scm]
+fallback_version = "0.0.0+unknown"  # used when git metadata is unavailable
+
+[tool.uv]
+# rebuild calliopy when the git commit or tags change, so the version stays correct
+cache-keys = [{ file = "pyproject.toml" }, { git = { commit = true, tags = true } }]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
