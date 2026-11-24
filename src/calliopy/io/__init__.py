@@ -4,7 +4,8 @@ Every reader takes a file path; looking files up by ExpID comes later, once the 
 configuration and ExpLog access exist. See docs/porting_guide.md for the conventions
 and docs/matlab_map.csv for the MATLAB function each reader replaces.
 
-- MAT-files (v7.3): load_mat, MatFile, load_metafile, metafile_info, load_adata
+- MAT-files (v7.3): load_mat, MatFile, load_metafile, load_metafile_records, metafile_info,
+  load_adata
 - auxiliary files: read_ini, load_lvd, load_wcp, load_ach_chans, parse_ach, parse_vrd,
   read_sidecar_csv
 - imaging and video: load_bin, load_wid_data, load_roi_data, load_wii_data,
@@ -57,6 +58,7 @@ from ._mat import (
     load_adata,
     load_mat,
     load_metafile,
+    load_metafile_records,
     metafile_info,
 )
 
@@ -89,6 +91,7 @@ __all__ = [
     "load_lvd",
     "load_mat",
     "load_metafile",
+    "load_metafile_records",
     "load_roi_data",
     "load_vid_data",
     "load_wcp",
