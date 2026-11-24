@@ -1,0 +1,49 @@
+matlab_function,matlab_folder,python_name,python_module,status,verified_against_r2003,notes
+angles_from_top_left,12_Widefield,angles_from_top_left,calliopy.widefield,ported,,idxs and mpoint stay 1-based (stored ROI pixel coordinates)
+calc_widefield_act,12_Widefield,calc_widefield_act; roi_activity; corner_rois,calliopy.widefield,ported,,"ExpLog lookup, already-calculated skip and save deferred; num_roisca crash fixed; pixel-1 ROI gets NaN as in MATLAB; real-data check on 2 x 2000 frames of one recording agreed to float32 rounding (provisional)"
+check_recording_widefield,12_Widefield,,,deferred,,"rig-side viewer: fixed temp-data drives, view_stack"
+compare_wid_frames,12_Widefield,compare_wid_frames,calliopy.widefield,ported,,returns a Figure; diverging matplotlib colormap instead of bluewhitered (not in the code base)
+extract_wii_file_platform,12_Widefield,load_wii_data,calliopy.io,elsewhere,,ported earlier with the readers
+get_frame_times_widefield,12_Widefield,frame_times_widefield,calliopy.widefield,ported,,outputs 1-based aux samples as stored; month-end error of the midnight branch kept
+inspect_widefield,12_Widefield,,,deferred,,"ExpLog lookup, temp-data drive, view_stack; its median division is median_divide_video"
+median_divide_video,12_Widefield,median_divide_video,calliopy.widefield,ported,,
+online_retinotopy,12_Widefield,online_retinotopy; online_retinotopy_from_files; plot_online_retinotopy; filter_with_disk_kernel,calliopy.widefield,ported,,last-recorded-stack lookup deferred; crop rectangle is a 0-based argument instead of ginput; returned trigger indices 0-based
+preprocessing_summary_widefield,12_Widefield,,,deferred,,needs ExpLog and adata lookup by ExpID
+propagate_tform_and_ROIs_from_expid,12_Widefield,propagate_tform,calliopy.widefield,ported,,computation for one experiment; lookups and saving deferred; status SUCCESS below threshold kept with warning
+register_wid,12_Widefield,register_wid; compute_tform; imregtform_similarity; registration_similarity; plot_registration_check,calliopy.widefield,ported,,"imregtform replaced by a numpy/scipy implementation (Mattes MI, 1+1 ES, 3-level pyramid): transforms not digit-identical to MATLAB; starts from identity; ExpLog, overwrite_flag and saving deferred; stack misalignment raises StackAlignmentError; trace-imaging branch crashes in MATLAB and was fixed (first_frame from the .wii mean projection, user decision pending); tform is a 3x3 tform.A matrix"
+register_widefield_exp,12_Widefield,,,not_ported,,marked OBSOLETE in its header; near-copy of register_wid
+register_widefield_exp_manual,12_Widefield,compute_tform_manual,calliopy.widefield,deferred,,interactive tool deferred; its local compute_tform (two point pairs) is ported
+register_widefield_exp_manual.asv,12_Widefield,,,not_ported,,MATLAB autosave file
+update_raw_data_status,12_Widefield,,,deferred,,writes RawDataStatus to the ExpLog database
+wid_adata_check,12_Widefield,wid_adata_check; quality_check; activity_similarity; image_similarity; wid_mean_roi_trace,calliopy.widefield,ported,,"computation only; interactive question, database update and save deferred; image similarity differs from MATLAB by design (see image_similarty_snippets)"
+wid_alignment_visualize,12_Widefield,,,deferred,,interactive y/n and adata write; its figures are compare_wid_frames and plot_image_similarity_snippets
+wid_mark_for_deletion,12_Widefield,,,deferred,,renames raw files for deletion and writes to the database
+wid_show_stack_drift,12_Widefield,stack_drift; stack_drift_report; plot_stack_drift_session; plot_stack_drift,calliopy.widefield,ported,,file list instead of ExpID; view_stack calls deferred
+zeroShiftBandPass,12_Widefield,zero_shift_bandpass,calliopy.widefield,ported,,MATLAB behaviour kept when a cutoff lies beyond the Nyquist frequency (no filtering); crash for ub < 0 fixed
+zeroShiftNotch,12_Widefield,zero_shift_notch,calliopy.widefield,ported,,MATLAB behaviour kept when the upper edge lies beyond the Nyquist frequency (no notch); crash for nf - bw/2 <= 0 fixed
+make_plotting_grid_ROIs_template,12_Widefield/Plotting_templates,make_plotting_grid_rois_template,calliopy.widefield,ported,,818-ROI template and both areaBorders equal the shipped .mat files; cranial-window ROIs_transformed differ in all 298 ROIs by one boundary row/column (expected-failure test)
+ROItemplate_generate_14ROIs_cortex_lambda_bregma,12_Widefield/ROItemplate_library/Build_code,generate_template_14rois_cortex_lambda_bregma,calliopy.widefield,ported,,"offline branch: output equals the shipped MATLAB-made .mat template (indices, ML/AP index, names, Allen areas, parameters); img_ROIs colours differ (MATLAB rng); 'online' branch (ExpLog, .wii) deferred"
+ROItemplate_generate_14ROIs_lambda_bregma,12_Widefield/ROItemplate_library/Build_code,generate_template_14rois_lambda_bregma,calliopy.widefield,ported,,"crashes in MATLAB as written (undefined parameters, struct mismatch): fixed; no MATLAB-made file exists, output unverified"
+ROItemplate_generate_eeg_circles_lambda_bregma,12_Widefield/ROItemplate_library/Build_code,generate_template_eeg_circles_lambda_bregma,calliopy.widefield,ported,,"output equals the shipped MATLAB-made .mat template (indices, ML/AP index, names, Allen areas, parameters); img_ROIs colours differ (MATLAB rng)"
+ROItemplate_generate_grid_cranial_window,12_Widefield/ROItemplate_library/Build_code,generate_template_grid_cranial_window,calliopy.widefield,ported,,"output equals the shipped MATLAB-made .mat template (indices, ML/AP index, names, Allen areas, parameters); img_ROIs colours differ (MATLAB rng)"
+ROItemplate_generate_grid_plus_eeg_circles_lambda_bregma,12_Widefield/ROItemplate_library/Build_code,generate_template_grid_plus_eeg_circles_lambda_bregma,calliopy.widefield,ported,,"output equals the shipped MATLAB-made .mat template (indices, ML/AP index, names, Allen areas, parameters); img_ROIs colours differ (MATLAB rng)"
+ROItemplate_generate_grid_whole_cortex_lambda_ICV,12_Widefield/ROItemplate_library/Build_code,generate_template_grid_whole_cortex_lambda_icv,calliopy.widefield,ported,,"output equals the shipped MATLAB-made .mat template (indices, ML/AP index, names, Allen areas, parameters); img_ROIs colours differ (MATLAB rng); the stim_points variant file has 9 extra ROIs made by other code"
+ROItemplate_generate_grid_whole_cortex_lambda_bregma,12_Widefield/ROItemplate_library/Build_code,generate_template_grid_whole_cortex_lambda_bregma,calliopy.widefield,ported,,"output equals the shipped MATLAB-made .mat template (indices, ML/AP index, names, Allen areas, parameters); img_ROIs colours differ (MATLAB rng)"
+ROItemplate_generate_only_eeg_electrode_positions_lambda_bregma,12_Widefield/ROItemplate_library/Build_code,generate_template_only_eeg_electrode_positions_lambda_bregma,calliopy.widefield,ported,,"output equals the shipped MATLAB-made .mat template (indices, ML/AP index, names, Allen areas, parameters); img_ROIs colours differ (MATLAB rng); type is [] for 29 of 30 ROIs as in MATLAB"
+calculate_velocity_field_Horn_Schunck,12_Widefield/Velocity_fields,velocity_field_horn_schunck,calliopy.widefield,ported,,parfor replaced by a loop
+match_ROIs_to_img_indices,12_Widefield/Velocity_fields,match_rois_to_img_indices,calliopy.widefield,ported,,ROI selection argument 0-based; returned linear indices 1-based as stored
+quiver_video,12_Widefield/Velocity_fields,quiver_video,calliopy.widefield,ported,,ROI grid template is an argument; odd spacing (MATLAB crash) rounds the start points
+UV_img_to_linear,12_Widefield/Velocity_fields,uv_img_to_linear,calliopy.widefield,ported,,ROI grid template is an argument instead of a lab folder lookup
+UV_linear_to_img,12_Widefield/Velocity_fields,uv_linear_to_img,calliopy.widefield,ported,,ROI grid template is an argument instead of a lab folder lookup
+HS,12_Widefield/Velocity_fields/Horn-Schunck_optical_flow,horn_schunck,calliopy.widefield,elsewhere,,third-party file (CC BY-NC-SA) not translated; algorithm implemented from Horn and Schunck 1981
+computeDerivatives,12_Widefield/Velocity_fields/Horn-Schunck_optical_flow,horn_schunck,calliopy.widefield,elsewhere,,third-party file (CC BY-NC-SA) not translated; part of horn_schunck
+gaussFilter,12_Widefield/Velocity_fields/Horn-Schunck_optical_flow,,,not_ported,,third-party (CC BY-NC-SA); unused by lab code
+plotFlow,12_Widefield/Velocity_fields/Horn-Schunck_optical_flow,,,not_ported,,third-party (CC BY-NC-SA) display helper; unused by lab code
+smoothImg,12_Widefield/Velocity_fields/Horn-Schunck_optical_flow,,,not_ported,,third-party (CC BY-NC-SA); unused by lab code
+register_frames,05_LoadData,register_frames,calliopy.widefield._frames (private),ported,,"needed by register_wid and wid_show_stack_drift; integer template saturates on mean subtraction as in MATLAB; shift_x = rows, shift_y = columns"
+fftreg,05_LoadData,fftreg,calliopy.widefield._frames (private),ported,,
+shift_data,05_LoadData,shift_data,calliopy.widefield._frames (private),ported,,
+image_similarty_snippets,06_Library,image_similarity_snippets; plot_image_similarity_snippets,calliopy.widefield,ported,,"differs from MATLAB by design: the one-pixel offset of the matched location is removed, so identical images give shift 0 (MATLAB sqrt(2)); random snippet positions from a numpy Generator"
+prctile,06_Library,prctile,calliopy._matlab (private),elsewhere,,"MathWorks copy, not translated: numpy percentile with method hazen"
+WF_grid2vid,21_Analysis,wf_grid2vid,calliopy.widefield,ported,,ROI grid template is an argument; needed by quiver_video
+wf_transform_ROIs_from_ROItemplate,08_RoiQuest/+utils,transform_rois_from_template,calliopy.widefield,ported,,needed by make_plotting_grid_ROIs_template
