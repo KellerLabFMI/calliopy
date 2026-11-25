@@ -64,3 +64,26 @@ load_ach_chans,01_DataManagement,load_ach_chans,calliopy.io,ported,,ported with 
 parse_vrd,01_DataManagement,parse_vrd,calliopy.io,ported,,ported with calliopy.io before this map existed; row added afterwards from the module docstring; verification date not recorded here
 get_file_size,06_Library,_get_file_size,calliopy.io._aux (private),ported,,ported with calliopy.io before this map existed; row added afterwards from the module docstring; verification date not recorded here
 WF_imageROIvalues,22_Plotting,plot_roi_values; roi_image,calliopy.widefield,ported,,"in widefield/_grid.py, added outside the 12_Widefield port; row added afterwards from the module docstring"
+nbstrp,21_Analysis,nbstrp,calliopy.stats,ported,,"hierarchical bootstrap; random draws from a numpy Generator (rng), so values differ from MATLAB; median always computed; this is the function ECT code calls nbstrp_clean (old name, still in its error identifiers)"
+nbstrp_get_indices,21_Analysis,nbstrp_get_indices; find_groups,calliopy.stats,ported,,returns 0-based indices; find_groups replaces findgroups for vectors
+ampd,21_Analysis,ampd,calliopy.analysis,ported,,"peak positions 0-based int64 (MATLAB 1-based int32); extended and adaptive modes can report peaks at the signal edges, as MATLAB does"
+plotBSTRP,22_Plotting,plot_bstrp,calliopy.plotting,ported,,baseline indices 0-based (default 92..99 = MATLAB 93:100); band drawn below the line and hidden from the legend instead of an hggroup; random draws differ from MATLAB
+cmap_centered,22_Plotting,cmap_centered,calliopy.plotting,ported,,"third-party (M. Courthoud): re-implemented, not translated; colour limits as clim= or from the current matplotlib axes; table/256 kept (white = 255/256)"
+Violin,22_Plotting,Violin; violin,calliopy.plotting,ported,,"third-party (B. Bechtold, BSD-3): independent matplotlib re-implementation with the same options and children; shapes and jitter not identical to MATLAB"
+violinplot,22_Plotting,violinplot,calliopy.plotting,ported,,"third-party (B. Bechtold, BSD-3): independent matplotlib re-implementation; tables/datasets taken as mappings"
+get_frame_times,04_Calliope,get_frame_times,calliopy.preprocessing,ported,,returns 1-based sample indices (stored frame_times); empty-index crash when nothing lies below half the minimum fixed (falls back to one period before the first frame)
+get_rot_ind,07_ViewStack,get_rot_ind,calliopy.viewstack,ported,,cf and returned linear indices 0-based (column-major)
+view_stack,07_ViewStack,view_stack; StackViewer,calliopy.viewstack,ported,,"matplotlib viewer; frames/frame_zero/marks 0-based; mouse/console keys (a p f w W v) are methods; movie export (m), registration check (r), blocking marks mode (E) and loading by ExpID not ported"
+StackAligner,07_ViewStack,,,deferred,,interactive stack-alignment GUI; no caller in ported code
+getExpLog,02_ExpLog,get_exp_log,calliopy.explog,ported,,DB-API connection or offline ExpLog.mat passed in (connectToExpLog is not in r2003; no driver dependency); module cache replaces the base workspace
+adodb_query,02_ExpLog,,calliopy.explog,elsewhere,,replaced by the DB-API cursor in get_exp_log
+read_info_from_ExpLog,02_ExpLog,read_info_from_exp_log,calliopy.explog,ported,,data_dir and channels are arguments (get_data_path / getProjDef not ported); unknown ExpID gives a warning and an empty struct as MATLAB
+find_adata_file,01_DataManagement,find_adata_file,calliopy.data,ported,,marked OBSOLETE in calliope; kept because analysis code calls it
+get_adata_filename,01_DataManagement,get_adata_filename,calliopy.data,ported,,adata_dir required; unknown ExpID raises LookupError
+get_data_path,01_DataManagement,,,deferred,,needs the lab backup paths (calliopy.config); callers pass the raw data root instead
+getProjDef,04_Calliope,,,deferred,,needs ProjectDefaults_<project> (not in r2003; calliopy.config); callers pass channels as arguments
+load_exp,05_LoadData,load_exp,calliopy.data,deferred,,"partly ported: adata, .ach, .lvd, .ini frame times, .wcp, .bin (+ secondary channel, registration), .wii/.wid, .tif return a MatStruct; EEG.dat, .run, .vid, .vid2, .avi, min.avi, min.csv, .eye, .eyeR, .ton raise NotImplementedError"
+correct_line_shift,05_LoadData,correct_line_shift,calliopy.data,ported,,needed by load_exp
+estimate_line_shift,05_LoadData,estimate_line_shift,calliopy.data,ported,,needed by load_exp
+ntzo,06_Library,_ntzo,calliopy.viewstack._viewer (private),ported,,normalise to [0 1]; used by view_stack
+load_meta,20_MetaData,load_meta; LoadMetaResult; MetafileMatchError,calliopy.io,ported,,"keyword search and sort over meta_dir, then load_metafile; ambiguous or empty match raises MetafileMatchError (MATLAB: interactive table); ExpLog tables from exp_log=, never the database; eval/evalin/debug/proj_meta keywords not ported"
