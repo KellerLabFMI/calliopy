@@ -17,6 +17,9 @@ each name replaces, including what is deferred and what differs from MATLAB.
   make_plotting_grid_rois_template, load_roi_template
 - transforms (3x3 matrices, MATLAB ``tform.A`` convention): similarity_matrix,
   fit_similarity, warp_image, transform_points
+- standard ROI grid (818 ROIs): load_grid_template, GridTemplate, grid2vid (one pixel per
+  ROI), roi_image (atlas-space image), plot_roi_values (ROI values with the Allen area
+  borders). The template file is passed in by path; it is lab data and not part of calliopy.
 """
 
 from ._activity import (
@@ -55,6 +58,7 @@ from ._flow import (
     velocity_field_horn_schunck,
     wf_grid2vid,
 )
+from ._grid import GridTemplate, grid2vid, load_grid_template, plot_roi_values, roi_image
 from ._quality import (
     ImageSimilaritySnippets,
     activity_similarity,
@@ -139,6 +143,7 @@ __all__ = [
     "SIMILARITY_THRESHOLD",
     "CornerRois",
     "FrameTimesWidefield",
+    "GridTemplate",
     "HornSchunckResult",
     "ImageSimilaritySnippets",
     "ImgIndices",
@@ -177,12 +182,14 @@ __all__ = [
     "generate_template_grid_whole_cortex_lambda_bregma",
     "generate_template_grid_whole_cortex_lambda_icv",
     "generate_template_only_eeg_electrode_positions_lambda_bregma",
+    "grid2vid",
     "horn_schunck",
     "image_similarity",
     "image_similarity_snippets",
     "imregtform_similarity",
     "load_allen_flat_map",
     "load_allen_ontology",
+    "load_grid_template",
     "load_plotting_grid_template",
     "load_roi_template",
     "make_plotting_grid_rois_template",
@@ -194,6 +201,7 @@ __all__ = [
     "plot_online_retinotopy",
     "plot_registration_check",
     "plot_roi_template",
+    "plot_roi_values",
     "plot_stack_drift",
     "plot_stack_drift_session",
     "propagate_tform",
@@ -206,6 +214,7 @@ __all__ = [
     "retinotopy_response_maps",
     "retinotopy_stimulus_triggers",
     "roi_activity",
+    "roi_image",
     "roi_template_colour_image",
     "similarity_matrix",
     "similarity_params",

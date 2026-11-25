@@ -499,6 +499,102 @@ def load_metafile(
         return _site_records(mf._reader, mf._file, rd_fields)
 
 
+def _site_rd_objects(f: h5py.File, top: h5py.Group) -> list[h5py.HLObject | None]:
+    """The ``rd`` HDF5 object of every site, in MATLAB's linear site order (``None`` if absent)."""
+    if "rd" not in top:
+        n = int(np.prod(_matlab_size(top))) if isinstance(top, h5py.Group) else 1
+        return [None] * n
+    rd = top["rd"]
+    is_ref_array = (
+        isinstance(rd, h5py.Dataset)
+        and h5py.check_ref_dtype(rd.dtype) is not None
+        and "MATLAB_class" not in rd.attrs
+    )
+    if is_ref_array:
+        refs = rd[()].T
+        return [f[r] if r else None for r in refs.ravel(order="F")]
+    return [rd]
+
+
+def _read_record(
+    reader: _Reader, rd: h5py.HLObject | None, ilayer: int, iexp: int, rd_fields: list[str] | None
+) -> MatStruct:
+    """Read record ``rd(ilayer + 1, iexp + 1)`` of one site, optionally only some fields."""
+    if rd is None or not isinstance(rd, h5py.Group) or _attr_flag(rd, "MATLAB_empty"):
+        raise IndexError("this site has no records (rd is empty)")
+    n_layers, n_exp = _matlab_size(rd)
+    if not (0 <= ilayer < n_layers and 0 <= iexp < n_exp):
+        raise IndexError(f"record ({ilayer}, {iexp}) is outside rd of size ({n_layers}, {n_exp})")
+    fields = reader._field_names(rd)
+    if rd_fields is not None:
+        missing = [k for k in rd_fields if k not in fields]
+        if missing:
+            raise KeyError(f"rd has no field(s) {missing}; fields: {fields}")
+        fields = [k for k in fields if k in set(rd_fields)]
+    members = {k: rd[k] for k in fields}
+    is_array = bool(members) and all(
+        isinstance(m, h5py.Dataset)
+        and "MATLAB_class" not in m.attrs
+        and h5py.check_ref_dtype(m.dtype) is not None
+        for m in members.values()
+    )
+    if not is_array:  # a 1x1 struct: fields are stored directly
+        return MatStruct((k, reader.read(m)) for k, m in members.items())
+    # struct array: each field is a dataset of references, stored transposed ([nExpIDs x nLayers])
+    return MatStruct((k, reader._deref(m[iexp, ilayer])) for k, m in members.items())
+
+
+def load_metafile_records(
+    path: str | PathLike,
+    records: Iterable[tuple[int, int, int]],
+    *,
+    rd_fields: str | Iterable[str] | None = None,
+    squeeze_scalars: bool = True,
+) -> list[MatStruct]:
+    """Read selected records of a metafile without reading the others.
+
+    Use it on large metafiles when an analysis needs only a few recordings: choose
+    them first from a cheap read (e.g. ``load_metafile(path, rd_fields=["drug"])``
+    or :func:`metafile_info`), then read the large fields (``act``) of only those.
+
+    Parameters
+    ----------
+    path
+        The metafile (v7.3 .mat holding a ``proj_meta`` variable).
+    records
+        ``(isite, ilayer, iexp)`` per record, 0-based and indexing the same
+        positions as :func:`load_metafile`: ``proj_meta[0, isite].rd[ilayer, iexp]``
+        (``isite`` counts sites in MATLAB's linear order).
+    rd_fields
+        Read only these fields of each record; ``None`` reads all. A field that the
+        records do not have raises ``KeyError``.
+    squeeze_scalars
+        As in :func:`load_mat`.
+
+    Returns
+    -------
+    list of MatStruct
+        One record per entry of ``records``, in the same order.
+
+    Differences from MATLAB
+    -----------------------
+    - No MATLAB counterpart: MATLAB loads the whole ``proj_meta``.
+    """
+    if isinstance(rd_fields, str):
+        rd_fields = [rd_fields]
+    fields = None if rd_fields is None else list(rd_fields)
+    with MatFile(path, squeeze_scalars=squeeze_scalars) as mf:
+        if "proj_meta" not in mf:
+            raise KeyError(f"{mf.path.name} has no proj_meta variable; variables: {mf.keys()}")
+        rd_objs = _site_rd_objects(mf._file, mf._file["proj_meta"])
+        out = []
+        for isite, ilayer, iexp in records:
+            if not 0 <= isite < len(rd_objs):
+                raise IndexError(f"site {isite} is outside proj_meta with {len(rd_objs)} sites")
+            out.append(_read_record(mf._reader, rd_objs[isite], int(ilayer), int(iexp), fields))
+    return out
+
+
 def metafile_info(path: str | PathLike) -> list[MatStruct]:
     """Describe a metafile without reading the records' data.
 
