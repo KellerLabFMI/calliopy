@@ -176,6 +176,25 @@ Language:
 - Tests write only under `tmp_path`, use no network and no fixed seed-dependent values from
   MATLAB.
 
+## Porting progress in README.md
+
+`README.md` ends with the section `## Porting progress`. Bring it up to date as the last step
+before every commit, also when the user makes the commit himself: hand the work over with the
+section already updated.
+
+- It is always the last section of `README.md`. Replace it as a whole; change nothing above it.
+- `docs/matlab_map.csv` is the only source. Give every file you ported or triaged its row
+  first, then recompute the table from the map. Never adjust a number by hand.
+- One row per top-level folder of calliope r2003, one for the repository root, and a total.
+- *MATLAB files* is the number of `.m` files in the folder at r2003, subfolders included.
+  These numbers are fixed; they change only if the reference revision changes.
+- *Ported*, *Elsewhere*, *Deferred* and *Not ported* count the map rows with that status, by
+  the top-level folder of `matlab_folder`. Each `.m` file counts once; rows that are not `.m`
+  files (autosaves) are left out. *Not started* is *MATLAB files* minus those four.
+- *Coverage* = (ported + elsewhere) / MATLAB files, in percent with one decimal. The line
+  above the table gives the same for all folders together.
+- Write the date of the update. Keep the explanatory notes under the table.
+
 ## Working with sub-agents
 
 Give each sub-agent files nobody else writes. Shared helpers (`_matlab.py`, anything two
@@ -186,5 +205,6 @@ remains unverified.
 ## Done means
 
 - every `.m` file of the folder has a row in `docs/matlab_map.csv`;
+- the `## Porting progress` section of `README.md` is recomputed from the map;
 - `uv run pytest` and `uv run ruff check .` pass, and the result is quoted in the report;
 - the report lists what was not compared with MATLAB and every decision left to the user.

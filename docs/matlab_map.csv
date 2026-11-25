@@ -45,5 +45,22 @@ fftreg,05_LoadData,fftreg,calliopy.widefield._frames (private),ported,,
 shift_data,05_LoadData,shift_data,calliopy.widefield._frames (private),ported,,
 image_similarty_snippets,06_Library,image_similarity_snippets; plot_image_similarity_snippets,calliopy.widefield,ported,,"differs from MATLAB by design: the one-pixel offset of the matched location is removed, so identical images give shift 0 (MATLAB sqrt(2)); random snippet positions from a numpy Generator"
 prctile,06_Library,prctile,calliopy._matlab (private),elsewhere,,"MathWorks copy, not translated: numpy percentile with method hazen"
-WF_grid2vid,21_Analysis,wf_grid2vid,calliopy.widefield,ported,,ROI grid template is an argument; needed by quiver_video
+WF_grid2vid,21_Analysis,wf_grid2vid; grid2vid,calliopy.widefield,ported,,"ROI grid template is an argument; needed by quiver_video; ported twice: grid2vid (widefield/_grid.py, takes a GridTemplate) and wf_grid2vid (widefield/_flow.py); one of the two should go"
 wf_transform_ROIs_from_ROItemplate,08_RoiQuest/+utils,transform_rois_from_template,calliopy.widefield,ported,,needed by make_plotting_grid_ROIs_template
+readini,05_LoadData,read_ini,calliopy.io,ported,,ported with calliopy.io before this map existed; row added afterwards from the module docstring; verification date not recorded here
+parse_ach,05_LoadData,parse_ach,calliopy.io,ported,,ported with calliopy.io before this map existed; row added afterwards from the module docstring; verification date not recorded here
+load_lvd,05_LoadData,load_lvd,calliopy.io,ported,,ported with calliopy.io before this map existed; row added afterwards from the module docstring; verification date not recorded here
+load_wcp,05_LoadData,load_wcp,calliopy.io,ported,,ported with calliopy.io before this map existed; row added afterwards from the module docstring; verification date not recorded here
+load_bin,05_LoadData,load_bin,calliopy.io,ported,,ported with calliopy.io before this map existed; row added afterwards from the module docstring; verification date not recorded here
+load_wid_data,05_LoadData,load_wid_data,calliopy.io,ported,,ported with calliopy.io before this map existed; row added afterwards from the module docstring; verification date not recorded here
+load_roi_data,05_LoadData,load_roi_data,calliopy.io,ported,,ported with calliopy.io before this map existed; row added afterwards from the module docstring; verification date not recorded here
+load_eye_monitor_data,05_LoadData,load_eye_monitor_data,calliopy.io,ported,,ported with calliopy.io before this map existed; row added afterwards from the module docstring; verification date not recorded here
+load_auxVid_data,05_LoadData,load_aux_vid_data,calliopy.io,ported,,ported with calliopy.io before this map existed; row added afterwards from the module docstring; verification date not recorded here
+load_EEG,05_LoadData,load_eeg,calliopy.io,ported,,ported with calliopy.io before this map existed; row added afterwards from the module docstring; verification date not recorded here; ExpLog lookup deferred
+load_hEEG,05_LoadData,load_heeg,calliopy.io,ported,,ported with calliopy.io before this map existed; row added afterwards from the module docstring; verification date not recorded here; the two aux decoders are not part of calliope and are assumed
+load_hEyeTracking,05_LoadData,load_heyetracking,calliopy.io,ported,,ported with calliopy.io before this map existed; row added afterwards from the module docstring; verification date not recorded here
+Adata,05_LoadData,load_adata; Adata,calliopy.io,deferred,,read-only access exists (load_adata); creating and writing adata files is not ported; row added afterwards
+load_ach_chans,01_DataManagement,load_ach_chans,calliopy.io,ported,,ported with calliopy.io before this map existed; row added afterwards from the module docstring; verification date not recorded here
+parse_vrd,01_DataManagement,parse_vrd,calliopy.io,ported,,ported with calliopy.io before this map existed; row added afterwards from the module docstring; verification date not recorded here
+get_file_size,06_Library,_get_file_size,calliopy.io._aux (private),ported,,ported with calliopy.io before this map existed; row added afterwards from the module docstring; verification date not recorded here
+WF_imageROIvalues,22_Plotting,plot_roi_values; roi_image,calliopy.widefield,ported,,"in widefield/_grid.py, added outside the 12_Widefield port; row added afterwards from the module docstring"
