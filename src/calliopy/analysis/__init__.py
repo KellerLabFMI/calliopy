@@ -3,6 +3,7 @@ running-mean smoothing, Fourier filtering, band power, pulse envelopes, spatial 
 small array/cell utilities."""
 
 from ._ampd import AmpdAdaptiveDebug, AmpdExtendedDebug, AmpdOriginalDebug, ampd
+from ._jokes import WTF_ANSWERS, wtf
 from ._library import expmat, flatten_cell, is_number
 from ._signal import (
     avg_psd_in_range,
@@ -15,6 +16,7 @@ from ._signal import (
 )
 
 __all__ = [
+    "WTF_ANSWERS",
     "AmpdAdaptiveDebug",
     "AmpdExtendedDebug",
     "AmpdOriginalDebug",
@@ -29,4 +31,5 @@ __all__ = [
     "ngsc",
     "psmooth",
     "smooth2",
+    "wtf",
 ]

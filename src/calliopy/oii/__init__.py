@@ -1,6 +1,7 @@
 """Intrinsic optical imaging (OII): Fourier retinotopy and patch-stimulus maps
 (calliope r2003 ``13_OII``)."""
 
+from ._adata_save import save_analyze_oii_fourier_results
 from ._fourier import (
     FourierMaps,
     OiiFourierResult,
@@ -40,6 +41,7 @@ __all__ = [
     "plot_fourier_maps",
     "plot_patch_montage",
     "power_overlay",
+    "save_analyze_oii_fourier_results",
     "smooth2",
     "wave_reference_image",
     "wave_stimulus_maps",

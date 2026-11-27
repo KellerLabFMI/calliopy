@@ -47,11 +47,13 @@ from ._session import (
 )
 from ._text import help_text, info_text
 from ._types import KeyResult, Redraw, RoiQuestRefused, SaveResult, View
+from ._why import DEFAULT_WHY_SUBJECTS, why_keller
 
 __all__ = [
     "BACKUP_INFIX",
     "COLORMAP_NAMES",
     "DEAD_ZONE",
+    "DEFAULT_WHY_SUBJECTS",
     "EEG_RING_TEMPLATE_FILE",
     "EEG_TEMPLATE_NAME",
     "KEY_BINDINGS",
@@ -84,6 +86,7 @@ __all__ = [
     "roi_number_labels",
     "run",
     "save_prefs",
+    "why_keller",
 ]
 
 

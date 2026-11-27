@@ -31,7 +31,8 @@ only location that is written down: where a working copy sits on a machine is ne
    no `requirements.txt`, no hand edits of `uv.lock`. If uv cannot run in the session, say so
    and check the work with an existing interpreter, but do not write a second workflow down.
 3. **No new dependency without the user's yes.** The runtime dependencies are numpy, scipy,
-   matplotlib, h5py and tifffile. See "Dependencies" below for how to decide.
+   matplotlib, h5py, tifffile and openpyxl (xlsx score sheets only, imported lazily). See
+   "Dependencies" below for how to decide.
 4. **The existing public API does not change.** Add names; do not rename, move or change the
    behaviour of what `calliopy.io` (or any released subpackage) already exports.
 5. **Do not translate code the lab does not own.** Check the header of every `.m` file. Copies of
@@ -59,15 +60,20 @@ Decide in this order, and stop at the first that works:
 A package that does one thing (bootstrap resampling, one filter, one colormap) is never the
 answer. pandas, scikit-image, scikit-learn, OpenCV and joblib are not dependencies: `readtable`
 becomes `csv`/numpy, `parfor` becomes a loop or vectorised code. Plotting uses matplotlib only.
+Interactive windows use tkinter (standard library) around a matplotlib canvas, as in
+`calliopy.roiquest`. openpyxl is the one approved exception (xlsx reading/writing, imported
+lazily inside the functions that need it). FISSA, CASCADE and rastermap are not dependencies:
+the MATLAB wrappers around them are `not_ported` by user decision.
 
 ## How to port a folder
 
 1. **List and triage every `.m` file** before writing code. Each file gets one status in
    `docs/matlab_map.csv`, with a one-line reason when it is not `ported`:
    - `ported`: computation that works on arrays or files.
-   - `deferred`: needs something calliopy does not have yet (ExpLog or database access,
-     `calliopy.config`, writing adata files, an interactive viewer). Port its computational
-     core now if it has one, and defer only the rest.
+   - `deferred`: needs something calliopy does not have yet (database writes, lookups by
+     ExpID, lab site configuration such as data locations or project defaults). Port its
+     computational core now if it has one, and defer only the rest. Keep the note neutral:
+     no internal details of the lab infrastructure in this public repository.
    - `not_ported`: obsolete or duplicate versions (`*_BU`, `*NEW`, "OBSOLETE" in the header,
      `.asv` autosaves), rig-side scripts tied to one machine.
    - `elsewhere`: already covered by an existing calliopy function. Check `calliopy.io` first.
@@ -78,8 +84,12 @@ becomes `csv`/numpy, `parfor` becomes a loop or vectorised code. Plotting uses m
    ExpID, file loading, the computation, printing, plotting and saving. In Python:
    - the core takes arrays and returns values;
    - a thin wrapper takes file paths and calls `calliopy.io` readers and the core;
-   - nothing looks up an ExpID, nothing prints, nothing writes into an adata file. What MATLAB
+   - nothing looks up an ExpID and nothing prints. The core never writes files: what MATLAB
      would have saved is returned as a `MatStruct` with the MATLAB variable names;
+   - writing into adata files is done only by separate, explicit save functions that take the
+     adata path and the core's result and write MATLAB's variable names and layout through
+     `calliopy.io` (`WritableAdata`, `save_adata`, `update_mat`, `delete_mat_variables`);
+     interactive tools (RoiQuest, viewers) back the file up before their first write;
    - plots are separate functions that take the computed result and return a matplotlib
      `Figure`. Interactive input (`ginput`, `input`, dialogs) becomes an argument.
 4. **Collapse copy-paste.** When MATLAB repeats a block per channel or per mode, write it once.

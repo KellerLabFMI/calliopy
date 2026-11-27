@@ -1,13 +1,16 @@
 """Widefield imaging (port of calliope ``12_Widefield``).
 
-Functions work on arrays or on file paths given by the caller; nothing looks up an ExpID,
-prints, or writes into an adata file (what MATLAB saved is returned as a ``MatStruct``).
+Functions work on arrays or on file paths given by the caller; nothing looks up an ExpID or
+prints. What MATLAB saved is returned as a ``MatStruct``; only the ``save_*`` functions write
+it into an adata file given by path.
 See docs/porting_guide.md for the conventions and docs/matlab_map.csv for the MATLAB function
 each name replaces, including what is deferred and what differs from MATLAB.
 
 - ROI activity and frame times: calc_widefield_act, roi_activity, corner_rois,
   frame_times_widefield, median_divide_video
 - quality checks: wid_adata_check, image_similarity_snippets, quality_check
+- saving into adata files: save_register_wid_results, save_propagate_tform_results,
+  save_calc_widefield_act_results, save_wid_adata_check_results, save_check_raw_passed
 - registration: register_wid, compute_tform, imregtform_similarity, propagate_tform
 - drift and comparison figures: stack_drift, plot_stack_drift, compare_wid_frames
 - filters: zero_shift_bandpass, zero_shift_notch
@@ -35,6 +38,13 @@ from ._activity import (
     frame_times_widefield,
     median_divide_video,
     roi_activity,
+)
+from ._adata_save import (
+    save_calc_widefield_act_results,
+    save_check_raw_passed,
+    save_propagate_tform_results,
+    save_register_wid_results,
+    save_wid_adata_check_results,
 )
 from ._drift import (
     compare_wid_frames,
@@ -304,6 +314,11 @@ __all__ = [
     "roi_mean_values",
     "roi_template_colour_image",
     "roi_threshold_mask",
+    "save_calc_widefield_act_results",
+    "save_check_raw_passed",
+    "save_propagate_tform_results",
+    "save_register_wid_results",
+    "save_wid_adata_check_results",
     "select_sites",
     "similarity_matrix",
     "similarity_params",

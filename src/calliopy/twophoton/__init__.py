@@ -3,6 +3,9 @@
 Ports of calliope r2003 ``11_TwoPhoton``, the two-photon registration and activity code of
 ``05_LoadData`` and ``21_Analysis``, and computational cores of ``04_Calliope`` (SpineQuest,
 site checks, score-sheet rules). See ``docs/matlab_map.csv`` for the file-by-file status.
+
+Computations return what MATLAB saved; the ``save_*`` functions write it into an adata file
+given by path (``save_register_bin_results``, ``save_calc_act_results``, ...).
 """
 
 from ._activity import (
@@ -23,6 +26,19 @@ from ._activity import (
     stack_projections,
     stack_template,
     tile_piezo_layers,
+)
+from ._adata_save import (
+    save_calc_act_results,
+    save_check_raw_passed,
+    save_correct_dxdy_results,
+    save_detected_spines,
+    save_register_bin_results,
+    save_register_exp_avgplanes_results,
+    save_register_exp_downsample_results,
+    save_register_exp_fixoutliers_results,
+    save_spine_tracking,
+    save_spiny_regions,
+    save_tpi_adata_check_results,
 )
 from ._aux import (
     FrameTimeStats,
@@ -78,6 +94,21 @@ from ._scoresheet import (
     score_sheet_problem,
     score_sheet_row_values,
 )
+from ._scoresheet_xlsx import (
+    CheckScoreSheetsResult,
+    LastMouseObservation,
+    ScoreSheetAlert,
+    ScoreSheetUpdate,
+    ScoreSheetWeights,
+    XlsRead,
+    check_score_sheet_mouse,
+    check_score_sheets,
+    last_mouse_observation,
+    read_score_sheet,
+    score_sheet_path,
+    score_sheet_weights,
+    update_score_sheet,
+)
 from ._spines import (
     SPINE_SCALE,
     MatchResult,
@@ -95,6 +126,7 @@ from ._spines import (
     write_label_tiff,
     write_spine_region_tiff,
 )
+from ._xlsx_formula import FormulaError, UnsupportedFormulaError
 
 __all__ = [
     "MAX_SHIFT_FIX",
@@ -104,13 +136,21 @@ __all__ = [
     "TPI_ROI_THRESHOLD",
     "ApplyRegistrationResult",
     "CalcActResult",
+    "CheckScoreSheetsResult",
     "FixShiftOutliersResult",
+    "FormulaError",
     "FrameTimeStats",
     "IframeTimes",
+    "LastMouseObservation",
     "MatchResult",
     "OnlineResponse",
     "RegisterMultilayerResult",
+    "ScoreSheetAlert",
+    "ScoreSheetUpdate",
+    "ScoreSheetWeights",
     "SpineTracking",
+    "UnsupportedFormulaError",
+    "XlsRead",
     "align_site_first_frames",
     "align_site_first_frames_2ch",
     "apply_registration",
@@ -120,6 +160,8 @@ __all__ = [
     "calc_act",
     "calc_act_map",
     "cam_exposure_check",
+    "check_score_sheet_mouse",
+    "check_score_sheets",
     "compare_stacks_images",
     "correct_dxdy",
     "crop_spiny_region",
@@ -128,6 +170,7 @@ __all__ = [
     "fix_registration",
     "fix_shift_outliers",
     "get_iframe_times",
+    "last_mouse_observation",
     "match_timepoint_to_master",
     "neuropil_indices",
     "next_check_registration_version",
@@ -141,6 +184,7 @@ __all__ = [
     "plot_tpi_activity_similarity",
     "preceding_expid_in_site",
     "propagate_spiny_regions",
+    "read_score_sheet",
     "register_bin",
     "register_bin_files",
     "register_exp_avgplanes",
@@ -154,9 +198,22 @@ __all__ = [
     "roi_similarity",
     "roi_traces",
     "rois_to_mask",
+    "save_calc_act_results",
+    "save_check_raw_passed",
     "save_check_registration_figure",
+    "save_correct_dxdy_results",
+    "save_detected_spines",
+    "save_register_bin_results",
+    "save_register_exp_avgplanes_results",
+    "save_register_exp_downsample_results",
+    "save_register_exp_fixoutliers_results",
+    "save_spine_tracking",
+    "save_spiny_regions",
+    "save_tpi_adata_check_results",
+    "score_sheet_path",
     "score_sheet_problem",
     "score_sheet_row_values",
+    "score_sheet_weights",
     "seed_label_map",
     "site_grid_shape",
     "site_roi_label_image",
@@ -173,6 +230,7 @@ __all__ = [
     "tpi_inspection_flags",
     "tpi_mean_roi_traces",
     "track_spines",
+    "update_score_sheet",
     "write_label_tiff",
     "write_spine_region_tiff",
 ]

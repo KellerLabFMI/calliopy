@@ -744,10 +744,27 @@ def _drop_activity(rois):
     else:
         out = list(rois)
         flat = out
-    if len(flat) and isinstance(flat[0], Mapping) and "activity" in flat[0]:
-        first = MatStruct(flat[0])
+    if not len(flat):
+        return out
+    first = flat[0]
+    if isinstance(first, Mapping) and "activity" in first:
+        first = MatStruct(first)
         del first["activity"]
         flat[0] = first
+    elif isinstance(first, np.ndarray) and first.dtype == object:
+        # ROIs{1} is a struct array (the usual widefield case): MATLAB's rmfield removes
+        # the field from every element.
+        elems = first.reshape(-1, order="F")
+        if len(elems) and all(isinstance(e, Mapping) for e in elems) and any(
+            "activity" in e for e in elems
+        ):
+            stripped = np.empty(first.shape, dtype=object)
+            sflat = stripped.reshape(-1, order="F")
+            for k, e in enumerate(elems):
+                s = MatStruct(e)
+                s.pop("activity", None)
+                sflat[k] = s
+            flat[0] = stripped
     return out
 
 

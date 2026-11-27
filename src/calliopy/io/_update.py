@@ -45,7 +45,7 @@ import numpy as np
 from ._mat import _attr_str, _check_v73
 from ._save import _check_name, _Writer
 
-__all__ = ["update_mat"]
+__all__ = ["delete_mat_variables", "update_mat"]
 
 logger = logging.getLogger(__name__)
 
@@ -266,3 +266,52 @@ def update_mat(
         len(names) - len(replaced),
         len(doomed),
     )
+
+def delete_mat_variables(path: str | PathLike, names: Iterable[str]) -> list[str]:
+    """Remove variables from an existing MATLAB v7.3 MAT-file in place.
+
+    The counterpart of MATLAB's ``rmvar`` / ``rmfield`` + re-save on an adata file. The
+    ``#refs#`` objects (cell elements, struct-array fields) reachable only from the
+    removed variables are deleted too, exactly as :func:`update_mat` does for replaced
+    values; objects shared with a kept variable are left alone.
+
+    Parameters
+    ----------
+    path
+        Existing v7.3 MAT-file (with the MATLAB header).
+    names
+        Variable names to remove. Names not present, and ``#``-prefixed HDF5 internals,
+        are ignored.
+
+    Returns
+    -------
+    list of str
+        The names that were removed, in the order given.
+
+    Raises
+    ------
+    FileNotFoundError, ValueError
+        As :func:`update_mat` for a missing, non-v7.3 or headerless file.
+
+    Differences from MATLAB
+    -----------------------
+    - The file does not shrink (HDF5 keeps the freed space); MATLAB rewrites the file.
+    - Not atomic: back the file up first, as for :func:`update_mat`.
+    """
+    path = Path(path)
+    _check_v73(path)
+    _check_mat73_header(path)
+    with h5py.File(path, "r+") as f:
+        present = [n for n in names if n in f and not n.startswith("#")]
+        if not present:
+            return []
+        doomed = _reachable_refs(f, [f[n] for n in present])
+        if doomed:
+            keep = [f[k] for k in f if k != _REFS and k not in present]
+            doomed -= _reachable_refs(f, keep, stop_when=doomed)
+        for n in present:
+            del f[n]
+        for obj in sorted(doomed, key=len, reverse=True):
+            if obj in f:
+                del f[obj]
+    return present

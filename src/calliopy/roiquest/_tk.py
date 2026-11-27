@@ -31,6 +31,7 @@ from ._session import RoiQuestSession, cellpose_available
 from ._tk_actiquest import ActiQuestWindow
 from ._tk_dialogs import ContrastDialog, TkDialogs
 from ._types import Redraw, RoiQuestRefused
+from ._why import why_keller
 
 __all__ = ["RoiQuestWindow", "run"]
 
@@ -38,7 +39,6 @@ log = logging.getLogger("calliopy.roiquest")
 
 TITLE = "RoiQuest (beta) - The ROIing adventure begins now!"
 _BG = "#1a1a1a"
-_WHY = "Go and figure it out."
 
 _WINDOW: RoiQuestWindow | None = None
 """The open RoiQuest window (MATLAB allows one ``fig_img`` at a time)."""
@@ -105,7 +105,8 @@ class RoiQuestWindow:
     Differences from MATLAB: accelerators are Ctrl + key on every platform (MATLAB uses Cmd on
     macOS); messages printed to MATLAB's Command Window go to the ``calliopy.roiquest`` logger
     and the status line under the image; Print Info / Print all commands open a text window;
-    "But... why?" shows one fixed answer (``whyKeller`` is not ported).
+    "But... why?" shows :func:`why_keller` with neutral stand-ins unless ``why_names`` is set
+    (MATLAB hard-codes lab members' first names, which this public package does not ship).
     """
 
     def __init__(self, session: RoiQuestSession, master: tk.Misc | None = None, *, dialogs=None):
@@ -333,7 +334,8 @@ class RoiQuestWindow:
                 item("Print Info", self.print_info),
                 item("Print all commands", self.print_help),
                 sep,
-                item("But... why?", lambda: self.dialogs.msgbox("Why?", _WHY, "help")),
+                item("But... why?", lambda: self.dialogs.msgbox(
+                    "Why?", why_keller(getattr(self, "why_names", None)), "help")),
             ]),
         ]
 

@@ -1,9 +1,8 @@
 """Animal score-sheet rules (computational cores of calliope ``04_Calliope`` score-sheet code).
 
-Ports of the logic in ``checkScoreSheetMouse.m`` and ``updateScoreSheet.m``. Reading and
-writing the ``.xlsx`` score sheets (``xlsread``/``xlswrite``), e-mailing and the dialogs are
-not ported: calliopy has no spreadsheet reader without a new dependency. The functions take
-the values already read from the sheet.
+Ports of the logic in ``checkScoreSheetMouse.m`` and ``updateScoreSheet.m``. The functions
+take the values already read from the sheet; reading and writing the ``.xlsx`` score sheets
+is in ``_scoresheet_xlsx.py`` (``check_score_sheet_mouse``, ``update_score_sheet``, ...).
 
 Where these functions belong (here, or with the animal/ExpLog tooling) is left to the user.
 

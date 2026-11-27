@@ -5,7 +5,9 @@ configuration and ExpLog access exist. See docs/porting_guide.md for the convent
 and docs/matlab_map.csv for the MATLAB function each reader replaces.
 
 - MAT-files (v7.3): load_mat, MatFile, load_metafile, load_metafile_records, metafile_info,
-  load_adata, save_mat (writer), update_mat (in-place writer), load_meta (search the metafile folder)
+  load_adata, save_mat (writer), update_mat / delete_mat_variables (in-place writers), load_meta (search the metafile folder)
+- adata files: WritableAdata (create, add and change variables, save_changes), save_adata,
+  adata_file_path, adata_file_path_from_fnames
 - auxiliary files: read_ini, load_lvd, load_wcp, load_ach_chans, parse_ach, parse_vrd,
   read_sidecar_csv
 - imaging and video: load_bin, load_wid_data, load_roi_data, load_wii_data,
@@ -13,6 +15,13 @@ and docs/matlab_map.csv for the MATLAB function each reader replaces.
 - EEG and human recordings: load_eeg, load_heeg, load_heyetracking
 """
 
+from ._adata_write import (
+    MODIFICATION_LOG_VARIABLE,
+    WritableAdata,
+    adata_file_path,
+    adata_file_path_from_fnames,
+    save_adata,
+)
 from ._aux import (
     LvdData,
     SidecarCsv,
@@ -63,11 +72,12 @@ from ._mat import (
 )
 from ._meta_search import LoadMetaResult, MetafileMatchError, load_meta
 from ._save import save_mat
-from ._update import update_mat
+from ._update import delete_mat_variables, update_mat
 
 __all__ = [
     "EEG_CHANNEL_ORDER",
     "EEG_SYNC_CHANNEL",
+    "MODIFICATION_LOG_VARIABLE",
     "Adata",
     "AuxVidData",
     "BinData",
@@ -85,6 +95,10 @@ __all__ = [
     "VrdData",
     "WidData",
     "WiiData",
+    "WritableAdata",
+    "adata_file_path",
+    "adata_file_path_from_fnames",
+    "delete_mat_variables",
     "load_ach_chans",
     "load_adata",
     "load_aux_vid_data",
@@ -109,6 +123,7 @@ __all__ = [
     "read_ini",
     "read_sidecar_csv",
     "read_tif",
+    "save_adata",
     "save_mat",
     "update_mat",
 ]
