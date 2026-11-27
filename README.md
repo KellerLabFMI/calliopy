@@ -1,6 +1,7 @@
 # calliopy
 
 Keller lab core code for data management, preprocessing and analysis: a Python port of calliope.
+Currently under porting.
 
 ## Install
 
