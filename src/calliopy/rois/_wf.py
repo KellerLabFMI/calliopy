@@ -155,6 +155,31 @@ def wf_rois_struct(rois, rois_ch610=None) -> np.ndarray:
     return _struct_array(keep)
 
 
+def _matlab_shape(v) -> np.ndarray:
+    """Value as MATLAB holds it: 0-d (a 1x1 value read with ``squeeze_scalars``) -> 1x1,
+    1-D -> 1xN row (``save_mat``'s default), otherwise unchanged."""
+    a = np.asarray(v)
+    if a.ndim == 0:
+        return a.reshape(1, 1)
+    if a.ndim == 1:
+        return a.reshape(1, -1)
+    return a
+
+
+def _isequal(a, b) -> bool:
+    """MATLAB ``isequal`` of two numeric values as read from adata files.
+
+    Sizes must agree after mapping 0-d values to 1x1 (calliopy.io returns 1x1 values as numpy
+    scalars by default) and 1-D values to rows; values are compared numerically (class is
+    ignored, NaN is never equal, as in MATLAB).
+    """
+    x, y = _matlab_shape(a), _matlab_shape(b)
+    if x.shape != y.shape:
+        return False
+    with np.errstate(invalid="ignore"):
+        return bool(np.all(x == y))
+
+
 def _status_failed(rp) -> bool:
     return str(rp["status"]) == "FAILED"
 
@@ -221,6 +246,11 @@ def wf_save_rois(rois, *, exp_group_ids, current_exp_id, template_hw,
 
     Notes
     -----
+    The "Propagate without overwriting" check compares indices like MATLAB ``isequal``: a
+    1x1 value read as a numpy scalar equals the same value as a ``(1, 1)`` array (earlier
+    versions compared shapes strictly and always failed for the one-pixel reference ROIs of
+    files read with ``squeeze_scalars=True``).
+
     Kept as in MATLAB (suspected bug, reported): for two-channel data with activity already
     calculated, the reset registration parameters are written to new variables
     ``registration_parameters_525`` and ``registration_parameters_610`` instead of
@@ -275,8 +305,7 @@ def wf_save_rois(rois, *, exp_group_ids, current_exp_id, template_hw,
                 old = _without_corners(_first_cell(tp["ROIs"]))
                 cur = _struct_list(new)
                 equal = len(old) == len(cur) and all(
-                    np.array_equal(np.asarray(a[f]), np.asarray(b[f]))
-                    for a, b in zip(cur, old) for f in fields)
+                    _isequal(a[f], b[f]) for a, b in zip(cur, old) for f in fields)
                 if not equal:
                     raise RoiSaveError("Current ROIs are different from ROIs in the first "
                                        "AData file. Propagating without overwriting is not "

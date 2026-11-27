@@ -5,7 +5,7 @@ configuration and ExpLog access exist. See docs/porting_guide.md for the convent
 and docs/matlab_map.csv for the MATLAB function each reader replaces.
 
 - MAT-files (v7.3): load_mat, MatFile, load_metafile, load_metafile_records, metafile_info,
-  load_adata, save_mat (writer), load_meta (search the metafile folder)
+  load_adata, save_mat (writer), update_mat (in-place writer), load_meta (search the metafile folder)
 - auxiliary files: read_ini, load_lvd, load_wcp, load_ach_chans, parse_ach, parse_vrd,
   read_sidecar_csv
 - imaging and video: load_bin, load_wid_data, load_roi_data, load_wii_data,
@@ -63,6 +63,7 @@ from ._mat import (
 )
 from ._meta_search import LoadMetaResult, MetafileMatchError, load_meta
 from ._save import save_mat
+from ._update import update_mat
 
 __all__ = [
     "EEG_CHANNEL_ORDER",
@@ -109,4 +110,5 @@ __all__ = [
     "read_sidecar_csv",
     "read_tif",
     "save_mat",
+    "update_mat",
 ]

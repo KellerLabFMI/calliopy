@@ -29,9 +29,9 @@ The version is taken from git tags (e.g. tag `v0.1.0` gives version `0.1.0`).
 ## Porting progress
 
 Coverage of calliope (MATLAB, revision r2003) by calliopy, counted in `.m` files and computed
-from `docs/matlab_map.csv`. Last updated: 2026-11-26.
+from `docs/matlab_map.csv`. Last updated: 2026-11-27.
 
-**Overall: 225 of 382 MATLAB files (58.9 %).**
+**Overall: 283 of 382 MATLAB files (74.1 %).**
 
 | Folder | MATLAB files | Ported | Elsewhere | Deferred | Not ported | Not started | Coverage |
 |---|---|---|---|---|---|---|---|
@@ -42,7 +42,7 @@ from `docs/matlab_map.csv`. Last updated: 2026-11-26.
 | `05_LoadData` | 32 | 25 | 0 | 3 | 4 | 0 | 78.1 % |
 | `06_Library` | 21 | 8 | 3 | 2 | 8 | 0 | 52.4 % |
 | `07_ViewStack` | 3 | 2 | 0 | 1 | 0 | 0 | 66.7 % |
-| `08_RoiQuest` | 90 | 26 | 5 | 53 | 6 | 0 | 34.4 % |
+| `08_RoiQuest` | 90 | 87 | 2 | 0 | 1 | 0 | 98.9 % |
 | `09_Plugins` | 4 | 0 | 0 | 0 | 0 | 4 | 0.0 % |
 | `10_Behavior` | 4 | 4 | 0 | 0 | 0 | 0 | 100.0 % |
 | `11_TwoPhoton` | 8 | 5 | 0 | 3 | 0 | 0 | 62.5 % |
@@ -54,7 +54,7 @@ from `docs/matlab_map.csv`. Last updated: 2026-11-26.
 | `23_Prefs` | 4 | 0 | 0 | 0 | 4 | 0 | 0.0 % |
 | `24_ProjMeta` | 15 | 12 | 0 | 2 | 1 | 0 | 80.0 % |
 | repository root | 2 | 0 | 0 | 0 | 1 | 1 | 0.0 % |
-| **Total** | 382 | 201 | 24 | 92 | 60 | 5 | 58.9 % |
+| **Total** | 382 | 262 | 21 | 39 | 55 | 5 | 74.1 % |
 
 - *Ported*: the computation of the file is available in calliopy. Parts that need ExpLog,
   the database or writing adata files may still be deferred; `docs/matlab_map.csv` says which.

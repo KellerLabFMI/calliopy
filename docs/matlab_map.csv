@@ -182,70 +182,70 @@ repository_collisions,06_Library,,,not_ported,,MATLAB path collision check with 
 textprogressbar,06_Library,,,not_ported,,third-party Command Window progress bar; calliopy logs progress
 writeErrorLog,06_Library,,,deferred,,appends to the shared lab ErrorLog file (needs calliopy.config); calliopy reports critical errors with warnings.warn/logging
 wtf,06_Library,,,not_ported,,random joke message for usage errors
-RoiQuest,08_RoiQuest,,,deferred,,"interactive viewer: GUI app class (state, figure, loading by ExpID); computation in calliopy.rois"
-acceptPutativeRois,08_RoiQuest/+clbk,,,deferred,,interactive viewer: appends putative Roi objects to the GUI list and selects the last
-assignAllCallbacks,08_RoiQuest/+clbk,,,deferred,,interactive viewer: callback wiring
+RoiQuest,08_RoiQuest,RoiQuestSession / RoiQuestWindow / run,calliopy.roiquest,ported,,"app state without graphics handles; open by adata path (+ original path) or by ExpID with ExpLog table and adata dir; every load resets data-related state (MATLAB kept ref points, template parameters, zoom from the previous file); tkinter window RoiQuestWindow with MATLAB's single-instance rule (run() raises the open window)"
+acceptPutativeRois,08_RoiQuest/+clbk,RoiQuestSession.accept_putative,calliopy.roiquest,ported,,
+assignAllCallbacks,08_RoiQuest/+clbk,"RoiQuestWindow (menus, mouse, wheel and key bindings)",calliopy.roiquest,ported,,tkinter window: menu commands and matplotlib canvas events forwarded to RoiQuestSession methods / key_press
 autoAdjustRois,08_RoiQuest/+clbk,auto_adjust_rois,calliopy.rois,ported,,uses calliopy.widefield register_frames (private module import); MATLAB quirk kept: with ignore_global the global shift still enters displacement and the out-of-bounds test
-autodetectCellpose,08_RoiQuest/+clbk,filter_cellpose_labels,calliopy.rois,ported,,"label filtering core ported; running Cellpose (MATLAB-python bridge) deferred: external package, not a dependency"
-autoRoiMatching,08_RoiQuest/+clbk,auto_roi_matching,calliopy.rois,ported,,matching core on Roi objects; selection 0-based; modifiers as local_only/global_only; GUI quiver and widefield refusal deferred
-butWhy,08_RoiQuest/+clbk,,,not_ported,,"joke callback, no computation"
-changeColorMode,08_RoiQuest/+clbk,,,deferred,,interactive viewer: overlay colour mode
-changeInfoPos,08_RoiQuest/+clbk,,,deferred,,interactive viewer: info text position
-changeOpacity,08_RoiQuest/+clbk,,,deferred,,interactive viewer: opacity dialog
-changePiezoLayer,08_RoiQuest/+clbk,,,deferred,,interactive viewer: Z-layer navigation
-changeRoiColor,08_RoiQuest/+clbk,,,deferred,,interactive viewer: colour picker
-contractExpandRois,08_RoiQuest/+clbk,Roi.expand / Roi.shrink,calliopy.rois,elsewhere,,callback over Roi.expand/shrink (amount 1); selection handling deferred with the viewer
-contrastSliderChanged,08_RoiQuest/+clbk,,,deferred,,interactive viewer: contrast slider logic
-createHistogram,08_RoiQuest/+clbk,,,deferred,,interactive viewer: histogram window of the zoomed image (np.histogram on the crop)
-cycleThroughImgs,08_RoiQuest/+clbk,,,deferred,,interactive viewer: image index cycling
-deleteCallback,08_RoiQuest/+clbk,,,deferred,,interactive viewer + writes ROIs into all adata files of a chronic series (adata writing)
-editCustomContrast,08_RoiQuest/+clbk,,,deferred,,interactive viewer: custom contrast UI (core: adjust_img_contrast custom)
-figButtonDown,08_RoiQuest/+clbk,,,deferred,,interactive viewer: mouse handler
-figButtonUp,08_RoiQuest/+clbk,,,deferred,,interactive viewer: zoom/selection mouse handler (segmentation core: segment_neuron)
-getInfoFromAData,08_RoiQuest/+clbk,valid_area / default_filter_size,calliopy.rois,ported,,valid area and filter size cores ported; loading into app state and ExpID lookup deferred; MATLAB quirk kept: valid area uses first layer's max shifts for all layers
-getInfoFromOriginalAData,08_RoiQuest/+clbk,,,deferred,,loads original adata into the GUI state with a dialog; file part = calliopy.io.load_mat + struct2rois + filter_template
-godModeCounter,08_RoiQuest/+clbk,,,not_ported,,"easter egg, no computation"
-keyParser,08_RoiQuest/+clbk,,,deferred,,interactive viewer: key parsing
-loadModel,08_RoiQuest/+clbk,,,deferred,,loads the Cellpose model through the MATLAB-python bridge (external package)
-loadRoisFromAdata,08_RoiQuest/+clbk,,,deferred,,interactive viewer: file dialog; loading = calliopy.io.load_mat + struct2rois
-moveSelectedRois,08_RoiQuest/+clbk,Roi.move,calliopy.rois,elsewhere,,callback over Roi.move with +-1/+-10 px steps; selection and refPoints handling deferred with the viewer
-printHelp,08_RoiQuest/+clbk,,,not_ported,,"prints GUI key help, no computation"
-printInfo,08_RoiQuest/+clbk,,,deferred,,interactive viewer: prints GUI state
-revertToSaved,08_RoiQuest/+clbk,,,deferred,,interactive viewer: reload with confirmation dialog
-saveToAdata,08_RoiQuest/+clbk,,,deferred,,dispatches to saveRoisAcute/saveRoisChronic/wfSaveRois with a dialog and writes adata
-scrollWheelCallback,08_RoiQuest/+clbk,,,deferred,,interactive viewer: threshold/Z change by scroll (core: segment_neuron)
-selectAllNoneRois,08_RoiQuest/+clbk,,,deferred,,interactive viewer: selection state
-setContrast,08_RoiQuest/+clbk,,,deferred,,interactive viewer: applies adjust_img_contrast to template/filtered/act_map images
-setFilterSize,08_RoiQuest/+clbk,,,deferred,,interactive viewer: dialog (core: filter_template)
-setFilterType,08_RoiQuest/+clbk,,,deferred,,interactive viewer (core: filter_template)
-setImageColormap,08_RoiQuest/+clbk,,,deferred,,interactive viewer: display colormap
-tagSelectedRois,08_RoiQuest/+clbk,,,deferred,,interactive viewer: sets Roi.type of selected ROIs
-toggleNumbers,08_RoiQuest/+clbk,,,deferred,,interactive viewer: overlay toggle
-upDownArrow,08_RoiQuest/+clbk,,,deferred,,"interactive viewer: key handler (core: segment_neuron, Roi.move); MATLAB crash noted: uses undefined 'event'"
-viewActivity,08_RoiQuest/+clbk,,,deferred,,"opens the ActiQuest window (core: actiquest_activity, plot_actiquest)"
-wfAddRefPoints,08_RoiQuest/+clbk,,,deferred,,interactive viewer: ginput of reference points
-wfAddRois,08_RoiQuest/+clbk,,,deferred,,interactive viewer: template file dialog; computation = transform_rois_from_template (calliopy.widefield) + struct2wf_rois + RoiWf channel transforms; writes is_eeg into adata
-wfFigButtonDown,08_RoiQuest/+clbk,,,deferred,,interactive viewer: mouse handler
+autodetectCellpose,08_RoiQuest/+clbk,RoiQuestSession.cellpose_detect / filter_cellpose_labels,calliopy.roiquest / calliopy.rois,ported,,Cellpose is an optional soft import (cellpose_available); any object with Cellpose's eval() works as model; failures raise instead of 'Autodetection failed'
+autoRoiMatching,08_RoiQuest/+clbk,auto_roi_matching / RoiQuestSession.auto_roi_matching,calliopy.rois / calliopy.roiquest,ported,,"session method adds the widefield/no-original/no-selection refusals, ROItrans{z}(1:2) update and the movement vectors (shown once by RoiQuestView); MATLAB crashed (origImgs{1} index) for an acute recording, here a refusal"
+butWhy,08_RoiQuest/+clbk,RoiQuestWindow (Help > But... why?),calliopy.roiquest,ported,,menu item kept; shows one fixed answer because utils.whyKeller (random joke sentences with lab member names) is not ported
+changeColorMode,08_RoiQuest/+clbk,RoiQuestSession.set_color_mode,calliopy.roiquest,ported,,
+changeInfoPos,08_RoiQuest/+clbk,RoiQuestSession.set_info_position / info_text_anchor,calliopy.roiquest,ported,,position computed from the current image size at draw time (MATLAB stored it when chosen)
+changeOpacity,08_RoiQuest/+clbk,RoiQuestSession.set_opacity,calliopy.roiquest,ported,,inputdlg becomes the argument; invalid value raises ValueError
+changePiezoLayer,08_RoiQuest/+clbk,RoiQuestSession.change_layer,calliopy.roiquest,ported,,
+changeRoiColor,08_RoiQuest/+clbk,RoiQuestSession.set_roi_color / set_selection_color,calliopy.roiquest,ported,,uisetcolor becomes the RGB argument; colours stored as triplets (roi_bg / roi_sel_bg properties give MATLAB's uniform images)
+contractExpandRois,08_RoiQuest/+clbk,RoiQuestSession.expand_selected / shrink_selected,calliopy.roiquest,ported,,was elsewhere (Roi.expand/shrink); selection handling now in the session
+contrastSliderChanged,08_RoiQuest/+clbk,RoiQuestSession.set_custom_contrast,calliopy.roiquest,ported,,MATLAB quirks kept: filtered image recomputed with the legacy filter whatever filterType; original images not updated
+createHistogram,08_RoiQuest/+clbk,HistogramView / histogram_data / RoiQuestWindow.open_histogram,calliopy.roiquest,ported,,matplotlib stairs on log y in a tkinter Toplevel below the main window
+cycleThroughImgs,08_RoiQuest/+clbk,RoiQuestSession.cycle_image,calliopy.roiquest,ported,,slider value sync = window
+deleteCallback,08_RoiQuest/+clbk,RoiQuestSession.delete_selected / deletion_kind,calliopy.roiquest,ported,,"dialogs become include_tracked; chronic deletion autosaves then writes ROIs into all series adata files with calliopy.io.update_mat after a backup; a fully emptied layer is written as [] (MATLAB 1x0 struct); unintended behaviour fixed: when the reload after a tracked deletion finds no ROIs left (MATLAB loadRois aborted and kept the deleted ROIs on screen, so a later save could write them back) the session holds empty layers"
+editCustomContrast,08_RoiQuest/+clbk,RoiQuestWindow.edit_custom_contrast,calliopy.roiquest,ported,,"tkinter window: opens the slider Toplevel 120 px below the main window (200, 200 when there is no room)"
+figButtonDown,08_RoiQuest/+clbk,RoiQuestSession.button_down,calliopy.roiquest,ported,,"0-based (row, col) argument, rounded half away from zero"
+figButtonUp,08_RoiQuest/+clbk,RoiQuestSession.button_up,calliopy.roiquest,ported,,kind normal/alt/extend; corners clamped to the image; EEG-template guard skips 0-based ROIs <2 and >121; crash fix: [].name for data without ROItemplate_parameters
+getInfoFromAData,08_RoiQuest/+clbk,RoiQuestSession.load_new_adata (valid_area / default_filter_size),calliopy.roiquest / calliopy.rois,ported,,"2P and widefield 1/2-channel; exp group from ExpLog when given (else the ExpID alone); MATLAB tform objects kept as read (MatlabObject placeholders), numeric 3x3 accepted"
+getInfoFromOriginalAData,08_RoiQuest/+clbk,RoiQuestSession.load_new_adata(original_adata_path),calliopy.roiquest,ported,,questdlg 'Load original ROIs?' becomes load_original_rois; msgbox warning becomes UserWarning
+godModeCounter,08_RoiQuest/+clbk,RoiQuestSession.god_mode_key,calliopy.roiquest,ported,,was not_ported; toggles the filter menus (enabled['setFiltType'/'setFiltSize']); message boxes = window
+keyParser,08_RoiQuest/+clbk,key_press / KEY_BINDINGS / normalize_key,calliopy.roiquest,ported,,also the menu accelerators (Ctrl+S/R/T/V/A/N/P/L); dialog-needing actions returned as requests (executed=False)
+loadModel,08_RoiQuest/+clbk,RoiQuestSession.load_cellpose_model,calliopy.roiquest,ported,,model path as argument; optional cellpose package
+loadRoisFromAdata,08_RoiQuest/+clbk,RoiQuestSession.load_rois_from_adata,calliopy.roiquest,ported,,uigetfile becomes the path argument ('original' for the original file)
+moveSelectedRois,08_RoiQuest/+clbk,RoiQuestSession.move_selected,calliopy.roiquest,ported,,was elsewhere (Roi.move); includes eeg_anulus rule and reference points
+printHelp,08_RoiQuest/+clbk,help_text,calliopy.roiquest,ported,,was not_ported; returns helpRoiQuest.txt without <strong> markup
+printInfo,08_RoiQuest/+clbk,info_text / RoiQuestSession.info_text,calliopy.roiquest,ported,,returns the report instead of printing
+revertToSaved,08_RoiQuest/+clbk,RoiQuestSession.revert_to_saved,calliopy.roiquest,ported,,reloads the same files (MATLAB looked the ExpID up again); confirmation dialog = window
+saveToAdata,08_RoiQuest/+clbk,RoiQuestSession.save,calliopy.roiquest,ported,,dispatch to save_rois_acute / save_rois_chronic / wf_save_rois; writes with calliopy.io.update_mat after a one-time backup per file per session (<name>.roiquest_backup_<date-time>); dialog answers are arguments
+scrollWheelCallback,08_RoiQuest/+clbk,RoiQuestSession.scroll,calliopy.roiquest,ported,,fix: no segmentation for widefield data while zoomed (MATLAB created 2P putative ROIs that could be added to widefield ROIs)
+selectAllNoneRois,08_RoiQuest/+clbk,RoiQuestSession.select_all / select_none,calliopy.roiquest,ported,,
+setContrast,08_RoiQuest/+clbk,RoiQuestSession.set_contrast,calliopy.roiquest,ported,,contrast_mode now records the mode (MATLAB never set it)
+setFilterSize,08_RoiQuest/+clbk,RoiQuestSession.set_filter_size,calliopy.roiquest,ported,,inputdlg becomes the argument; outside 1-100 raises ValueError
+setFilterType,08_RoiQuest/+clbk,RoiQuestSession.set_filter_type,calliopy.roiquest,ported,,
+setImageColormap,08_RoiQuest/+clbk,RoiQuestSession.set_colormap / invert_colormap / colormap,calliopy.roiquest,ported,,parula (MATLAB-only) replaced by matplotlib viridis; gray/copper/hot from matplotlib (hot segments differ slightly); display only
+tagSelectedRois,08_RoiQuest/+clbk,RoiQuestSession.tag_selected / untag_selected,calliopy.roiquest,ported,,
+toggleNumbers,08_RoiQuest/+clbk,RoiQuestSession.toggle_numbers,calliopy.roiquest,ported,,
+upDownArrow,08_RoiQuest/+clbk,RoiQuestSession.threshold_step,calliopy.roiquest,ported,,crash fix: MATLAB tested event.VerticalScrollCount (undefined here) for the median snap; snap now applies to 'up'
+viewActivity,08_RoiQuest/+clbk,RoiQuestSession.activity_selection / RoiQuestWindow.view_activity,calliopy.roiquest,ported,,"opens or updates the ActiQuest tkinter window; ROI numbers 0-based in, labelled from 1"
+wfAddRefPoints,08_RoiQuest/+clbk,RoiQuestSession.wf_add_ref_points,calliopy.roiquest,ported,,"ginput replaced by the two 0-based (row, col) points as argument"
+wfAddRois,08_RoiQuest/+clbk,RoiQuestSession.wf_add_rois / roi_template_files,calliopy.roiquest,ported,,template file name or path argument (folder = roi_template_dir); 2-channel channel map must be numeric (tform_ch_map argument when the adata holds a MATLAB object); ring template writes is_eeg via update_mat; ROIs replaced only on success
+wfFigButtonDown,08_RoiQuest/+clbk,RoiQuestWindow.define_ref_points,calliopy.roiquest,ported,,"tkinter window: the next two left clicks are taken as reference points (first cross drawn after the first click), then RoiQuestSession.wf_add_ref_points"
 adjustImgContrast,08_RoiQuest/+gfx,adjust_img_contrast,calliopy.rois,ported,,private mat2gray/quantile; MATLAB quirk kept: custom upper limit is M*CLims(2)
-cellposeDetect,08_RoiQuest/+gfx,,,deferred,,calls the Cellpose python package through the MATLAB bridge; Cellpose is not a calliopy dependency (label filtering: filter_cellpose_labels)
-createContrastSelectionMenu,08_RoiQuest/+gfx,,,deferred,,interactive viewer: UI builder
-createDisplayImage,08_RoiQuest/+gfx,,,deferred,,interactive viewer: figure builder
-createMainfigure,08_RoiQuest/+gfx,,,deferred,,interactive viewer: figure builder
+cellposeDetect,08_RoiQuest/+gfx,RoiQuestSession.cellpose_detect,calliopy.roiquest,ported,,"model.eval([img], diameter, channels=[0, 0]); optional cellpose"
+createContrastSelectionMenu,08_RoiQuest/+gfx,"ContrastDialog (private, _tk_dialogs)",calliopy.roiquest,ported,,"tkinter window: Black/White tk.Scale 0-1 step 0.01, applied on slider release (MATLAB ValueChangedFcn)"
+createDisplayImage,08_RoiQuest/+gfx,RoiQuestView / RoiQuestSession.load_new_adata,calliopy.roiquest,ported,,uint8 bestFit conversion in the session; artists on any matplotlib Axes; 2P aspect 1.5 (DataAspectRatio [3 2 1]); default font instead of Myriad Pro
+createMainfigure,08_RoiQuest/+gfx,RoiQuestWindow / run,calliopy.roiquest,ported,,"tkinter window: Toplevel half the screen centred, dark background, crosshair cursor, MATLAB title; menubar File/View/ROIs/Widefield/Help with MATLAB's items, separators and Ctrl accelerators; enable/visibility from RoiQuestSession.enabled (Cellpose items also need the cellpose package)"
 filterTemplate,08_RoiQuest/+gfx,filter_template,calliopy.rois,ported,,"private fspecial('disk') (_matlab.py candidate); 'updated' uses strel('disk',r,0): differs from MATLAB's default N=4 strel for r>2"
 getLabelsColormap,08_RoiQuest/+gfx,get_labels_colormap,calliopy.rois,ported,,hsv(10) via matplotlib hsv_to_rgb
 makeCross,08_RoiQuest/+gfx,make_cross,calliopy.rois,ported,,centre argument 0-based; output 1-based linear indices like Roi.indices
 segmentNeuron,08_RoiQuest/+gfx,segment_neuron,calliopy.rois,ported,,"image, threshold, 0-based crop, valid area and existing ROI mask as arguments instead of app; private bwareaopen/imclose/bwmorph spur"
 uniformRgbImage,08_RoiQuest/+gfx,uniform_rgb_image,calliopy.rois,ported,,
-updateDisplayImage,08_RoiQuest/+gfx,,,deferred,,interactive viewer: redraw
-updateHistogram,08_RoiQuest/+gfx,,,deferred,,interactive viewer: redraw
-updateOverlayImage,08_RoiQuest/+gfx,,,deferred,,interactive viewer: overlay redraw (label images: rois_label_image/rois_label_type_image)
+updateDisplayImage,08_RoiQuest/+gfx,RoiQuestView.update_display / RoiQuestSession.display_image,calliopy.roiquest,ported,,
+updateHistogram,08_RoiQuest/+gfx,HistogramView.update,calliopy.roiquest,ported,,
+updateOverlayImage,08_RoiQuest/+gfx,overlay_image / overlay_text / roi_number_labels / RoiQuestView.update_overlay,calliopy.roiquest,ported,,"flat/random/tags, putative, ref crosses (MATLAB's two cross colours kept), selection alpha 0.9; ROI number texts reused instead of recreated"
 checkRoiMatching,08_RoiQuest/+utils,check_roi_matching,calliopy.rois,ported,,crash fixes: pixels moved outside the image not counted (MATLAB sub2ind error); missing test ROIs marked not matched (MATLAB index error)
-enableFunctionality,08_RoiQuest/+utils,,,deferred,,interactive viewer: enables UI elements
-expid2adataPath,08_RoiQuest/+utils,,,deferred,,ExpLog/database lookup by ExpID and lab paths
+enableFunctionality,08_RoiQuest/+utils,RoiQuestSession.enabled,calliopy.roiquest,ported,,dict of MATLAB menu handle names; follows the current file (MATLAB only updated it for widefield files)
+expid2adataPath,08_RoiQuest/+utils,RoiQuestSession.from_expid,calliopy.roiquest,ported,,ExpLog table and adata dir as arguments; file name via calliopy.data.get_adata_filename; missing file raises FileNotFoundError
 expid2expgroup,08_RoiQuest/+utils,exp_group,calliopy.rois,ported,,"core on ExpLog columns (expid, siteid) passed in; ExpLog loading deferred"
-loadCellPose,08_RoiQuest/+utils,,,not_ported,,configures a machine-specific python environment for Cellpose (rig/machine setup)
-loadRois,08_RoiQuest/+utils,,,deferred,,loads ROIs into the GUI state; file part = calliopy.io.load_mat + struct2rois
-loadUserPrefs,08_RoiQuest/+utils,,,deferred,,viewer preferences XML
+loadCellPose,08_RoiQuest/+utils,RoiQuestSession.load_cellpose_model,calliopy.roiquest,ported,,was not_ported; Python needs no environment switching; model list dialog becomes the model path argument
+loadRois,08_RoiQuest/+utils,RoiQuestSession.load_rois_from_adata,calliopy.roiquest,ported,,"fix: refused (ValueError) for widefield data, where MATLAB failed on the missing template"
+loadUserPrefs,08_RoiQuest/+utils,load_prefs,calliopy.roiquest,ported,,JSON with MATLAB's field names instead of XML; file path argument
 logMsg,08_RoiQuest/+utils,logging,stdlib,elsewhere,,timestamped fprintf; Python uses logging
 mIsField,08_RoiQuest/+utils,MatFile.keys,calliopy.io,elsewhere,,case-insensitive variable-in-matfile test: name in calliopy.io.MatFile(path).keys()
 Roi,08_RoiQuest/+utils,Roi,calliopy.rois,ported,,class with move/to_binary_mask/to_label_image/to_label_type_image/expand/shrink/to_struct; array methods as rois_* functions; expand uses approximate bwmorph thicken; MATLAB quirk kept: empty type labels 13 (single) vs 12 (array)
@@ -254,23 +254,23 @@ roiMatchMessage,08_RoiQuest/+utils,roi_match_message,calliopy.rois,ported,,text 
 rois2struct,08_RoiQuest/+utils,rois2struct,calliopy.rois,ported,,"returns (1,N) object array of MatStruct, struct() as empty MatStruct; indices stay 1-based"
 saveRoisAcute,08_RoiQuest/+utils,save_rois_acute,calliopy.rois,ported,,"returns MatStruct(ROIs, ROItrans); dialog becomes overwrite_activity argument; adata writing deferred"
 saveRoisChronic,08_RoiQuest/+utils,save_rois_chronic,calliopy.rois,ported,,"matching + new-ROI propagation returned as ChronicRoiSave (adata contents per ExpID); check figure = plot_rois_to_add; ExpLog lookup, dialogs and adata writing deferred; quirks kept: skipped out-of-bounds new ROIs leave empty structs, current ExpID gets auto-adjusted copies, original panel title uses last ExpID"
-saveUserPrefs,08_RoiQuest/+utils,,,deferred,,viewer preferences XML
+saveUserPrefs,08_RoiQuest/+utils,save_prefs / prefs_dict / prefs_file_name,calliopy.roiquest,ported,,JSON instead of XML; default name <pi>_<project>.json via RoiQuestSession.prefs_default_name
 struct2rois,08_RoiQuest/+utils,struct2rois,calliopy.rois,ported,,argument named imgWH in MATLAB but used as [height width]; struct() gives empty list
 struct2wfRois,08_RoiQuest/+utils,struct2wf_rois,calliopy.rois,ported,,
 struct2wfRois_2ch,08_RoiQuest/+utils,struct2wf_rois_2ch,calliopy.rois,ported,,"returns (green, red) tuple instead of a 1x2 cell"
-updateText,08_RoiQuest/+utils,,,deferred,,interactive viewer: info text
+updateText,08_RoiQuest/+utils,overlay_text,calliopy.roiquest,ported,,Z and ROI numbers shown from 1 as in MATLAB
 wf_transformROis,08_RoiQuest/+utils,wf_transform_rois,calliopy.rois,ported,,tform as 3x3 A matrix (adata transform objects are not decodable by calliopy.io); uses calliopy.widefield warp_image/transform_points
 wf_transformROis_2ch,08_RoiQuest/+utils,wf_transform_rois_2ch,calliopy.rois,ported,,per-channel copy-paste collapsed into one helper
-wfSaveRois,08_RoiQuest/+utils,wf_save_rois / wf_rois_struct,calliopy.rois,ported,,returns per-ExpID MatStruct of variables to write; dialogs become overwrite_policy/overwrite_activity; ExpLog lookup and adata writing deferred; quirk kept: 2ch activity reset written as registration_parameters_525/_610
+wfSaveRois,08_RoiQuest/+utils,wf_save_rois / wf_rois_struct / RoiQuestSession.save,calliopy.rois / calliopy.roiquest,ported,,"returns per-ExpID MatStruct of variables to write (RoiQuestSession.save writes them with calliopy.io.update_mat); dialogs become overwrite_policy/overwrite_activity; 'Propagate without overwriting' check compares indices like MATLAB isequal (1x1 numpy scalars equal (1,1) arrays; fixed Nov 27 2026, was always failing on files read with squeeze_scalars); quirk kept: 2ch activity reset written as registration_parameters_525/_610"
 whyKeller,08_RoiQuest/+utils,,,not_ported,,joke string generator
-ActiQuest,08_RoiQuest/ActiQuest,,,deferred,,"interactive viewer: activity window class (computation: actiquest_activity, plot_actiquest)"
-AQ_colorTickLabels,08_RoiQuest/ActiQuest,,,not_ported,,"TeX colour markup of MATLAB tick labels, display only"
-AQ_createMainFigure,08_RoiQuest/ActiQuest,,,deferred,,interactive viewer: figure builder
-AQ_createVisualization,08_RoiQuest/ActiQuest,actiquest_activity / actiquest_traces / plot_actiquest,calliopy.rois,ported,,median-divided activity and offset traces; static matplotlib figure; interactivity deferred
-AQ_keyParser,08_RoiQuest/ActiQuest,,,deferred,,interactive viewer: key parsing
-AQ_toggleDarkMode,08_RoiQuest/ActiQuest,,,deferred,,interactive viewer: styling
-AQ_updatePlots,08_RoiQuest/ActiQuest,,,deferred,,interactive viewer: redraw
-AQ_updateVisualization,08_RoiQuest/ActiQuest,actiquest_activity / plot_actiquest,calliopy.rois,elsewhere,,same computation as AQ_createVisualization; redraw of the live window deferred
+ActiQuest,08_RoiQuest/ActiQuest,ActiQuestSession / ActiQuestView / ActiQuestWindow,calliopy.roiquest,ported,,toolkit-free state + matplotlib figure + tkinter Toplevel (ActiQuestWindow) with matplotlib's pan/zoom toolbar
+AQ_colorTickLabels,08_RoiQuest/ActiQuest,ActiQuestView.apply_style,calliopy.roiquest,ported,,was not_ported; tick colours set with matplotlib instead of TeX markup
+AQ_createMainFigure,08_RoiQuest/ActiQuest,ActiQuestView / ActiQuestWindow,calliopy.roiquest,ported,,axes at MATLAB's positions on a given Figure; axes share x and y limits
+AQ_createVisualization,08_RoiQuest/ActiQuest,actiquest_activity / actiquest_traces / plot_actiquest / ActiQuestView,calliopy.rois / calliopy.roiquest,ported,,live view added: ActiQuestView.update_visualization
+AQ_keyParser,08_RoiQuest/ActiQuest,ActiQuestSession.key_press,calliopy.roiquest,ported,,
+AQ_toggleDarkMode,08_RoiQuest/ActiQuest,ActiQuestSession.key_press('d') / ActiQuestView.apply_style,calliopy.roiquest,ported,,
+AQ_updatePlots,08_RoiQuest/ActiQuest,ActiQuestView.update_plots,calliopy.roiquest,ported,,
+AQ_updateVisualization,08_RoiQuest/ActiQuest,ActiQuestSession.load_new_rois / ActiQuestView.update_visualization,calliopy.roiquest,ported,,was elsewhere
 find_saccades,10_Behavior,find_saccades,calliopy.behavior,ported,,saccade_frames and pupil_pos keep MATLAB 1-based values; length(idata) = longest dimension and saturating uint8 diff in facial_mov kept (suspected quirks); float64 computation also for single input
 LeinweberPerformance,10_Behavior,leinweber_performance,calliopy.behavior,ported,,other length mismatches raise ValueError (MATLAB fails in the product)
 map_eye_data_to_frame_times,10_Behavior,map_eye_data_to_frame_times,calliopy.behavior,ported,,"nearest eye frame, first on ties as MATLAB min; vectorised"
