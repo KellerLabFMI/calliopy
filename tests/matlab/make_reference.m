@@ -21,7 +21,8 @@ info.sample_dir = sample_dir;
 save(fullfile(out_dir, 'ref_info.mat'), '-struct', 'info', '-v7.3');
 
 groups = {'ref_types', 'ref_aux', 'ref_imaging', 'ref_eeg', 'ref_containers', 'ref_widefield', ...
-          'ref_core', 'ref_io_save'};
+          'ref_core', 'ref_io_save', 'ref_analysis_core', 'ref_wf_analysis', ...
+          'ref_twophoton', 'ref_rois', 'ref_projmeta'};
 for k = 1:numel(groups)
     if exist(groups{k}, 'file') ~= 2
         fprintf('%s: not written yet, skipped\n', groups{k});
